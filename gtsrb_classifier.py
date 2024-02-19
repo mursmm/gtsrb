@@ -130,8 +130,8 @@ test_images, val_images, test_labels, val_labels = train_test_split(test_images,
 
 #tTransformation for training data
 train_transform = transforms.Compose([
-    transforms.RandomHorizontalFlip(),
     transforms.RandomRotation(degrees=15),
+    #transforms.TrivialAugmentWide(num_magnitude_bins=31),
     transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),
     transforms.RandomResizedCrop(size=(112, 112), scale=(0.8, 1.0)),
     transforms.ToTensor()
