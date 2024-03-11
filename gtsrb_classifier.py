@@ -270,7 +270,9 @@ early_stopping_counter = 0
 best_val_loss = float('inf')
 best_model_state = None
 
-    
+#initialize lists to store accuracies
+train_accuracies = []    
+test_accuracies = []
 
 # Training and evaluation loop
 num_epochs = 30
@@ -298,8 +300,8 @@ for epoch in range(num_epochs):
     # Calculate loss and accuracy per epoch 
     train_loss /= len(train_loader)
     train_acc /= len(train_loader)
-    
-   
+    #append accuracie to a list
+    train_accuracies.append(train_acc)
 
     # Validation
     model.eval()
@@ -366,6 +368,8 @@ for epoch in range(num_epochs):
         # Adjust metrics 
         test_loss /= len(test_loader)
         test_acc /= len(test_loader)
+        #append accuracy to a list
+        test_accuracies.append(test_acc)
         #calculate precision score on test data
         test_precision = precision_score(true_labels_test, predicted_labels_test, average='weighted', zero_division=1 )
         #calculate recall score on test data
@@ -387,7 +391,20 @@ print('Finished Training and Testing')
 
 
 
- 
+# Plot the accuracies
+epochs = range(1, len(train_accuracies) + 1)
+plt.plot(epochs, train_accuracies, label='Training Accuracy')
+plt.plot(epochs, test_accuracies, label='Test Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.title('Training and Test Accuracy')
+plt.legend()
+
+# Save the plot as an image file
+plt.savefig('accuracy_plot.png')
+
+# Show the plot
+plt.show()
 
 
 
